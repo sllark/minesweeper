@@ -4,13 +4,19 @@ interface GameState {
   grid: string[],
   level: number,
   shouldStart: boolean,
+  gameOver: boolean,
+  isLoading: boolean,
+  levelBeforeGameOver: number,
 }
 
-const initialState = {
+const initialState: GameState = {
   grid: [],
   level: 1,
   shouldStart: false,
-} as GameState
+  gameOver: false,
+  isLoading: false,
+  levelBeforeGameOver: 1,
+}
 
 const gameSlice = createSlice({
   name: 'game',
@@ -25,12 +31,32 @@ const gameSlice = createSlice({
     setStart: (state, action: PayloadAction<boolean>) => {
       state.shouldStart = action.payload;
     },
-
-    createConnection: () => {},
-    initGame: () => {},
-    startGame: () => {},
+    setGameOver: (state, action: PayloadAction<boolean>) => {
+      state.gameOver = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setLevelBeforeGameOver: (state, action: PayloadAction<number>) => {
+      state.levelBeforeGameOver = state.level;
+    },
+    createConnection: () => {
+    },
+    initGame: () => {
+    },
+    startGame: (state, action) => {},
   },
 })
 
-export const {setGrid, setLevel, setStart, createConnection,initGame, startGame} = gameSlice.actions
+export const {
+  setGrid,
+  setLevel,
+  setStart,
+  createConnection,
+  initGame,
+  startGame,
+  setGameOver,
+  setLoading,
+  setLevelBeforeGameOver
+} = gameSlice.actions
 export default gameSlice.reducer

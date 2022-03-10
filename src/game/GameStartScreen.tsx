@@ -1,13 +1,19 @@
 import React from 'react';
 import {Container, Typography, Button} from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton';
+import {PlayArrow} from '@mui/icons-material';
+
 
 import GameLevelSelector from "./GameLevelSelector";
-import {useDispatch} from "react-redux";
-import {setStart} from "./gameReducers";
+import {useDispatch, useSelector} from "react-redux";
+import {setStart, setLoading} from "./gameReducers";
+import {RootState} from "../store/store";
 
+import isConnectionReady from "../common/isConnectionReady";
 
 const GameStartScreen = () => {
 
+  const state = useSelector((state: RootState) => state.game)
   const dispatch = useDispatch();
 
   return (
@@ -25,13 +31,23 @@ const GameStartScreen = () => {
 
       <GameLevelSelector/>
 
-      <Button
+      <LoadingButton
+        loading={state.isLoading}
+        loadingPosition="end"
         variant="contained"
-        size="large"
-        onClick={() => dispatch(setStart(true))}
+        endIcon={<PlayArrow/>}
+        sx={{
+          pr:2
+        }}
+        onClick={() => {
+          if (isConnectionReady()){
+            dispatch(setStart(true));
+            dispatch(setLoading(true));
+          }
+        }}
       >
         Play Game
-      </Button>
+      </LoadingButton>
 
     </Container>
   );

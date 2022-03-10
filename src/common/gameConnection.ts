@@ -12,9 +12,7 @@ class GameConnection {
   }
 
   public static createConnection() {
-    if (GameConnection.socket) {
-      return GameConnection.socket;
-    }
+    if (GameConnection.socket) return GameConnection.socket;
     GameConnection.socket = new WebSocket(ENDPOINT);
     return GameConnection.socket;
   }
